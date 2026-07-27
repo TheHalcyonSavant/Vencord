@@ -29,7 +29,7 @@ export default definePlugin({
             replacement: [
                 {
                     match: /(?<=MESSAGE_CREATE:function\((\i)\){)/,
-                    replace: (_, props) => `$self.trackMessage(${props});$&`
+                    replace: (_, props) => `$self.trackMessage(${props});`
                 }
             ]
         }
