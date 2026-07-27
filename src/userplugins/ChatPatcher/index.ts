@@ -52,11 +52,11 @@ export default definePlugin({
 
     trackMessage(props: { message: ContentMaster; }) {
         try {
+            this.logger.info("trackMessage", props);
+
             if (!props || !props.message || !props.message.content) {
                 return;
             }
-
-            this.logger.info("trackMessage", props);
         } catch (e) {
             this.logger.error("trackMessage", e);
         }
@@ -64,21 +64,6 @@ export default definePlugin({
 
     start() {
         this.logger = new Logger("ChatPatcher");
-
-        try {
-            // Auto-open DevTools on every window
-            this.webContents.once("did-finish-load", () => {
-                // Optional: only open if a setting/env is set
-                // if (process.env.VENCORD_AUTO_DEVTOOLS !== "1") return;
-
-                this.webContents.openDevTools({
-                    mode: "right", // "right" | "bottom" | "detach" | "undocked"
-                    activate: true
-                });
-            });
-        } catch (e) {
-            this.logger.error("Failed to open dev tools", e);
-        }
     },
 
     stop() {
