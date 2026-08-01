@@ -25,14 +25,23 @@ export default definePlugin({
             ]
         },
         {
+            find: '"MessageStore"',
+            replacement: [
+                {
+                    match: /(?<=MESSAGE_CREATE:function\((\i)\){)/,
+                    replace: (_, props) => `if($self.shouldIgnoreMessage(${props}))return;`
+                }
+            ]
+        },
+        {
             find: '"ReadStateStore"',
             replacement: [
                 {
                     match: /(?<=MESSAGE_CREATE:function\((\i)\){)/,
-                    replace: (_, props) => `$self.trackMessage(${props});`
+                    replace: (_, props) => `if($self.shouldIgnoreMessage(${props}))return;`
                 }
             ]
-        }
+        },
     ],
 
     changeMessageObject(thread: MessageGroup) {
@@ -50,15 +59,17 @@ export default definePlugin({
         }
     },
 
-    trackMessage(props: { message: ContentMaster; }) {
+    shouldIgnoreMessage(props: { message: ContentMaster; }) {
         try {
-            this.logger.info("trackMessage", props);
+            this.logger.info("MESSAGE_CREATE", props);
 
             if (!props || !props.message || !props.message.content) {
-                return;
+                return false;
             }
+            return false;
         } catch (e) {
-            this.logger.error("trackMessage", e);
+            this.logger.error("MESSAGE_CREATE", e);
+            return false;
         }
     },
 
