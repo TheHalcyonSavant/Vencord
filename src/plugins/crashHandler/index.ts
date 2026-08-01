@@ -76,7 +76,7 @@ export default definePlugin({
     ],
 
     handleCrash(_this: any, errorState: any) {
-        console.log("error", errorState);
+        console.error(errorState);
         DataStore.del("KeepCurrentChannel_previousData");
 
         if (IS_DEV) {

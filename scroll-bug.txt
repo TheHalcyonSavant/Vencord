@@ -1,0 +1,3 @@
+The "Component Stack" error happens once, not during crash report. It has this source code:
+    FocusRing was given a focusTarget but the required ringTarget was not provided. A ringTarget is required to avoid ambiguity of where the ring will be applied.
+    FocusRing was given a controlled focused prop but no ringTarget to apply the ring to. A ringTarget is required since it cannot be inferred through regular focus events.
