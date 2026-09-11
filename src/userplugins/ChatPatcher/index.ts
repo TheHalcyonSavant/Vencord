@@ -7,7 +7,7 @@
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
 
-import { ContentMaster, MessageGroup } from "./message-types";
+import { MessageCreate, MessageGroup } from "./message-types";
 
 export default definePlugin({
     name: "ChatPatcher",
@@ -47,6 +47,7 @@ export default definePlugin({
     changeMessageObject(thread: MessageGroup) {
         try {
             if (!thread || !thread.messages || !Array.isArray(thread.messages.content)) {
+                this.logger.info("weird MessageGroup", thread);
                 return;
             }
 
@@ -59,13 +60,13 @@ export default definePlugin({
         }
     },
 
-    shouldIgnoreMessage(props: { message: ContentMaster; }) {
+    shouldIgnoreMessage(props: MessageCreate) {
         try {
-            this.logger.info("MESSAGE_CREATE", props);
-
             if (!props || !props.message || !props.message.content) {
+                this.logger.info("weird MESSAGE_CREATE", props);
                 return false;
             }
+            this.logger.info("weird MESSAGE_CREATE", props.message.content);
             return false;
         } catch (e) {
             this.logger.error("MESSAGE_CREATE", e);
