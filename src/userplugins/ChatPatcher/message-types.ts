@@ -60,7 +60,6 @@ export interface ContentMaster {
     type: MessageType;
 }
 
-
 export interface MessageGroup {
     canUncollapse: boolean;
     channel: {

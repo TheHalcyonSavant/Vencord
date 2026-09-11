@@ -33,15 +33,16 @@ export default definePlugin({
                 }
             ]
         },
-        {
-            find: '"ReadStateStore"',
-            replacement: [
-                {
-                    match: /(?<=MESSAGE_CREATE:function\((\i)\){)/,
-                    replace: (_, props) => `if($self.shouldIgnoreMessage(${props}))return;`
-                }
-            ]
-        },
+        // duplicate like MessageStore
+        // {
+        //     find: '"ReadStateStore"',
+        //     replacement: [
+        //         {
+        //             match: /(?<=MESSAGE_CREATE:function\((\i)\){)/,
+        //             replace: (_, props) => `if($self.shouldIgnoreMessage(${props}))return;`
+        //         }
+        //     ]
+        // },
     ],
 
     changeMessageObject(thread: MessageGroup) {
@@ -66,7 +67,7 @@ export default definePlugin({
                 this.logger.info("weird MESSAGE_CREATE", props);
                 return false;
             }
-            this.logger.info("weird MESSAGE_CREATE", props.message.content);
+            this.logger.info("MESSAGE_CREATE", props.message.content);
             return false;
         } catch (e) {
             this.logger.error("MESSAGE_CREATE", e);
