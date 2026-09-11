@@ -48,7 +48,8 @@ export default definePlugin({
     changeMessageObject(thread: MessageGroup) {
         try {
             if (!thread || !thread.messages || !Array.isArray(thread.messages.content)) {
-                this.logger.info("weird MessageGroup", thread);
+                // TODO: connect this.logger missing types
+                this.logger.warn("weird MessageGroup", thread);
                 return;
             }
 
@@ -64,7 +65,7 @@ export default definePlugin({
     shouldIgnoreMessage(props: MessageCreate) {
         try {
             if (!props || !props.message || !props.message.content) {
-                this.logger.info("weird MESSAGE_CREATE", props);
+                this.logger.warn("weird MESSAGE_CREATE", props);
                 return false;
             }
             this.logger.info("MESSAGE_CREATE", props.message.content);
@@ -80,6 +81,6 @@ export default definePlugin({
     },
 
     stop() {
-        this.logger.info("ChatPatcher stopped");
+        this.logger.error("ChatPatcher stopped");
     }
 });
