@@ -13,6 +13,7 @@ app.on("browser-window-created", (_, win) => {
     const mainWindows = BrowserWindow.getAllWindows();
 
     console.log("mainWindows", mainWindows);
+    // TODO: solve start-windows.ps1 first
     return;
 
     // 3. Configure the DevTools Window using ALL standard BrowserWindow options
