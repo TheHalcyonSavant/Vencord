@@ -14,9 +14,22 @@ type NonEmptyDigits<S extends string = string> =
 
 export type MessageType = "MESSAGE" | "MESSAGE_CREATE" | "MESSAGE_GROUP_BLOCKED" | "MESSAGE_GROUP_IGNORED";
 
+type MediaType = "image/png" | "image/jpeg" | "image/gif" | "image/webp" | "video/mp4" | "video/webm" | "audio/mpeg" | "audio/ogg" | "audio/wav";
+
+interface Image {
+    id: NonEmptyDigits;
+    filename: string;
+    content_type: MediaType;
+    size: number;
+    url: string;
+    proxy_url: string;
+    height: number | null;
+    width: number | null;
+}
+
 export interface Message {
     activity: unknown | null;
-    attachments: unknown[];
+    attachments: Image[];
     author: {
         id: string;
         username: string;
@@ -28,30 +41,34 @@ export interface Message {
     components: unknown[];
     content: string;
     edited_timestamp: Date | null;
-    embeds: unknown[];
-    flags: number;
-    id: NonEmptyDigits;
-    ignored: boolean;
-    interaction: unknown | null;
-    isUnsupported: boolean;
-    mediaMention: unknown | null;
-    member: {
-        avatar: unknown | null;
-        banner: unknown | null;
-        communication_disabled_until: unknown | null;
-        joined_at: string; // ISO string
-        mute: boolean;
-        pending: boolean;
-        roles: unknown[];
+    embeds: {
+        image: Image;
+        thumbnail: Image[];
+        flags: number;
+        id: NonEmptyDigits;
+        ignored: boolean;
+        interaction: unknown | null;
+        isUnsupported: boolean;
+        mediaMention: unknown | null;
+        member: {
+            avatar: unknown | null;
+            banner: unknown | null;
+            communication_disabled_until: unknown | null;
+            joined_at: string; // ISO string
+            mute: boolean;
+            pending: boolean;
+            roles: unknown[];
+        };
+        mentionChannels: unknown[];
+        mentionsEveryone: boolean;
+        nonce: string;
+        pinned: boolean;
+        reactions: unknown[];
+        state: "SENT" | "DELIVERED" | "READ";
+        stickerItems: unknown[];
+        timestamp: Date;
+        type: number;
     };
-    mentionChannels: unknown[];
-    mentionsEveryone: boolean;
-    nonce: string;
-    pinned: boolean;
-    reactions: unknown[];
-    state: "SENT" | "DELIVERED" | "READ";
-    timestamp: Date;
-    type: number;
 }
 
 export interface ContentMaster {

@@ -56,7 +56,7 @@ export default definePlugin({
             // not working
             // obj.compact = false;
 
-            this.logger.info("messages", thread.messages.type, thread.messages.content.filter(c => c.content).map(c => c.content.content), thread);
+            this.logger.info("messages(MessageGroup) changeMessageObject", thread.messages.type, thread.messages.content.filter(c => c.content).map(c => c.content.content), thread);
         } catch (e) {
             this.logger.error("changeMessageObject", e);
         }
@@ -64,11 +64,16 @@ export default definePlugin({
 
     shouldIgnoreMessage(props: MessageCreate) {
         try {
-            if (!props || !props.message || !props.message.content) {
+            if (!props || !props.message || (!props.message.content && !props.message.attachments)) {
                 this.logger.warn("weird MESSAGE_CREATE", props);
                 return false;
             }
-            this.logger.info("MESSAGE_CREATE", props.message.content);
+
+            if (props.message.content) {
+                this.logger.info("MESSAGE_CREATE", props.message.content);
+            } else if (props.message.attachments) {
+                this.logger.info("MESSAGE_CREATE gif", props.message.attachments[0]);
+            }
             return false;
         } catch (e) {
             this.logger.error("MESSAGE_CREATE", e);
